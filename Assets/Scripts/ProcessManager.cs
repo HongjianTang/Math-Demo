@@ -43,6 +43,7 @@ public class ProcessManager : MonoBehaviour
         UIManager.Instance.UpdatePlayerNumber();
         RegenerateSelectNumberPhase();
         NumberManager.Instance.CheckArithmeticProgression();
+        UIManager.Instance.UpdateRemovedNumber();
         UIManager.Instance.UpdateAll();
     }
 
@@ -76,6 +77,7 @@ public class ProcessManager : MonoBehaviour
         ClearCache();
         RegenerateSelectNumberPhase();
         UIManager.Instance.UpdatePlayerNumber();
+        UIManager.Instance.UpdateRemovedNumber();
         UIManager.Instance.UpdateAll();
     }
 

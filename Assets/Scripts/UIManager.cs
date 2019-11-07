@@ -12,7 +12,9 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
     public GameObject numberPrefab;
     public GameObject playerNumberGroup;
+    public GameObject removedNumberGroup;
     private List<GameObject> _playerNumberObjects = new List<GameObject>();
+    private List<GameObject> _removedNumberObjects = new List<GameObject>();
     public GameObject stepText;
     public GameObject scoreText;
     public GameObject restartButton;
@@ -53,18 +55,37 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void UpdatePlayerNumber()
     {
-        foreach (var number in _playerNumberObjects)
+        UpdateNumberGameObjects(NumberManager.Instance.PlayerNumbers, _playerNumberObjects,
+            playerNumberGroup);
+    }
+
+    public void UpdateRemovedNumber()
+    {
+        UpdateNumberGameObjects(NumberManager.Instance.RemovedNumbers, _removedNumberObjects,
+            removedNumberGroup);
+    }
+    
+    /// <summary>
+    /// 更新数组UI
+    /// </summary>
+    /// <param name="numbers">数组</param>
+    /// <param name="numberObjects">存放的gameObject</param>
+    /// <param name="anchor">坐标anchor</param>
+    private void UpdateNumberGameObjects(List<int> numbers, List<GameObject> numberObjects,
+        GameObject anchor)
+    {
+        foreach (var number in numberObjects)
         {
             Destroy(number);
         }
 
-        _playerNumberObjects.Clear();
-        if (NumberManager.Instance.PlayerNumbers == null) return;
-        foreach (var t in NumberManager.Instance.PlayerNumbers)
+        numberObjects.Clear();
+        if (numbers == null) return;
+        foreach (var t in numbers)
         {
             GameObject numberGameObject =
-                Instantiate(numberPrefab, playerNumberGroup.transform, true);
-            _playerNumberObjects.Add(numberGameObject);
+                Instantiate(numberPrefab, anchor.transform, true);
+            numberObjects.Add(numberGameObject);
             numberGameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
                 t.ToString();
         }
