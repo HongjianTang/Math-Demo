@@ -22,7 +22,7 @@ public class NumberManager : MonoBehaviour
     {
         ToSelectNumbers.Clear();
     }
-    
+
     /// <summary>
     /// 产生单个随机数
     /// </summary>
@@ -81,12 +81,15 @@ public class NumberManager : MonoBehaviour
                         {
                             if (PlayerNumbers[l] == n4)
                             {
-                                print("zhaodaole");
                                 _progressionNumbers.Add(PlayerNumbers[i]);
                                 _progressionNumbers.Add(PlayerNumbers[j]);
                                 _progressionNumbers.Add(PlayerNumbers[k]);
                                 _progressionNumbers.Add(PlayerNumbers[l]);
-                                _scoreInterval = l - i - 3;
+                                print("zhaodaole!"+_progressionNumbers[0]);
+                                print(_progressionNumbers[1]);
+                                print(_progressionNumbers[2]);
+                                print(_progressionNumbers[3]);
+                                _scoreInterval = l - i + 1;
                                 AddScoreAnimation();
                             }
                         }
@@ -120,8 +123,10 @@ public class NumberManager : MonoBehaviour
         RemoveNumber(_progressionNumbers[1]);
         RemoveNumber(_progressionNumbers[2]);
         RemoveNumber(_progressionNumbers[3]);
+        _progressionNumbers.Clear();
+        UIManager.Instance.UpdatePlayerNumber();
     }
-    
+
     /// <summary>
     /// 
     /// </summary>
@@ -138,6 +143,7 @@ public class NumberManager : MonoBehaviour
     public void AddScore(int n)
     {
         _score += n;
+        print("本次得分：" + n + "，总分：" + _score);
         // 播放动画
     }
 }
