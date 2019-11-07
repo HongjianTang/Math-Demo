@@ -9,7 +9,7 @@ public class NumberManager : MonoBehaviour
     [NonSerialized] public readonly List<int> ToSelectNumbers = new List<int>();
     [NonSerialized] public readonly List<int> PlayerNumbers = new List<int>();
     private readonly List<int> _progressionNumbers = new List<int>();
-    private int _score;
+    [NonSerialized] public int score;
     private int _scoreInterval;
     public static NumberManager Instance;
 
@@ -28,7 +28,7 @@ public class NumberManager : MonoBehaviour
     /// </summary>
     public void GenerateSingleRandomNumber()
     {
-        ToSelectNumbers.Add(Random.Range(1, 30));
+        ToSelectNumbers.Add(Random.Range(1, 50));
     }
 
     /// <summary>
@@ -142,8 +142,8 @@ public class NumberManager : MonoBehaviour
     /// </summary>
     public void AddScore(int n)
     {
-        _score += n;
-        print("本次得分：" + n + "，总分：" + _score);
+        score += n;
+        print("本次得分：" + n + "，总分：" + score);
         // 播放动画
     }
 }

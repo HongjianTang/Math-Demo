@@ -13,6 +13,8 @@ public class UIManager : MonoBehaviour
     public GameObject numberPrefab;
     public GameObject playerNumberGroup;
     private List<GameObject> _playerNumberObjects = new List<GameObject>();
+    public GameObject stepText;
+    public GameObject scoreText;
 
     private void Awake()
     {
@@ -61,5 +63,21 @@ public class UIManager : MonoBehaviour
             numberGameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
                 NumberManager.Instance.PlayerNumbers[i].ToString();
         }
+    }
+
+    public void UpdateScore()
+    {
+        scoreText.GetComponent<TextMeshProUGUI>().text = "Score: " + NumberManager.Instance.score;
+    }
+
+    public void UpdateStep()
+    {
+        stepText.GetComponent<TextMeshProUGUI>().text = "Step: " + ProcessManager.Instance.nStep;
+    }
+
+    public void UpdateAll()
+    {
+        UpdateScore();
+        UpdateStep();
     }
 }
