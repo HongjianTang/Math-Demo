@@ -8,10 +8,12 @@ public class NumberManager : MonoBehaviour
 {
     [NonSerialized] public readonly List<int> ToSelectNumbers = new List<int>();
     [NonSerialized] public readonly List<int> PlayerNumbers = new List<int>();
+    [NonSerialized] public readonly List<int> RemovedNumbers = new List<int>();
     private readonly List<int> _progressionNumbers = new List<int>();
     [NonSerialized] public int score;
     private int _scoreInterval;
     public static NumberManager Instance;
+    private const int NLimit = 50;
 
     private void Awake()
     {
@@ -29,9 +31,14 @@ public class NumberManager : MonoBehaviour
     /// <summary>
     /// 产生单个随机数
     /// </summary>
-    public void GenerateSingleRandomNumber()
+    private void GenerateSingleRandomNumber()
     {
-        ToSelectNumbers.Add(Random.Range(1, 50));
+        int n = Random.Range(1, NLimit);
+        while (PlayerNumbers.Contains(n))
+        {
+            n = Random.Range(1, NLimit);
+        }
+        ToSelectNumbers.Add(n);
     }
 
     /// <summary>
@@ -88,7 +95,7 @@ public class NumberManager : MonoBehaviour
                                 _progressionNumbers.Add(PlayerNumbers[j]);
                                 _progressionNumbers.Add(PlayerNumbers[k]);
                                 _progressionNumbers.Add(PlayerNumbers[l]);
-                                print("zhaodaole!"+_progressionNumbers[0]);
+                                print("zhaodaole!" + _progressionNumbers[0]);
                                 print(_progressionNumbers[1]);
                                 print(_progressionNumbers[2]);
                                 print(_progressionNumbers[3]);
@@ -128,6 +135,7 @@ public class NumberManager : MonoBehaviour
         RemoveNumber(_progressionNumbers[3]);
         _progressionNumbers.Clear();
         UIManager.Instance.UpdatePlayerNumber();
+        UIManager.Instance.UpdateRemovedNumber();
     }
 
     /// <summary>
@@ -136,6 +144,7 @@ public class NumberManager : MonoBehaviour
     /// <param name="n"></param>
     public void RemoveNumber(int n)
     {
+        RemovedNumbers.Add(n);
         PlayerNumbers.Remove(n);
         // 播放动画
     }
@@ -156,6 +165,7 @@ public class NumberManager : MonoBehaviour
     public void ClearCache()
     {
         PlayerNumbers.Clear();
+        RemovedNumbers.Clear();
         score = 0;
     }
 }
