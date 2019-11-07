@@ -7,7 +7,7 @@ public class ProcessManager : MonoBehaviour
 {
     private void Start()
     {
-        Invoke(nameof(InitPhase), 1f);
+        Invoke(nameof(InitPhase), 0.2f);
     }
 
     void InitGame()
