@@ -18,7 +18,10 @@ public class NumberManager : MonoBehaviour
         Instance = this;
     }
 
-    public void ClearList()
+    /// <summary>
+    /// 清除待选数组
+    /// </summary>
+    public void ClearSelectNumber()
     {
         ToSelectNumbers.Clear();
     }
@@ -114,7 +117,7 @@ public class NumberManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// 添加分数，并播放动画
     /// </summary>
     private void AddScoreAnimation()
     {
@@ -128,7 +131,7 @@ public class NumberManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// 移除该数字
     /// </summary>
     /// <param name="n"></param>
     public void RemoveNumber(int n)
@@ -138,12 +141,21 @@ public class NumberManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// 增加分数并播放动画
     /// </summary>
     public void AddScore(int n)
     {
         score += n;
         print("本次得分：" + n + "，总分：" + score);
         // 播放动画
+    }
+
+    /// <summary>
+    /// 重新开始游戏，重置分数和数组
+    /// </summary>
+    public void ClearCache()
+    {
+        PlayerNumbers.Clear();
+        score = 0;
     }
 }
