@@ -28,7 +28,7 @@ public class NumberManager : MonoBehaviour
     /// </summary>
     public void GenerateSingleRandomNumber()
     {
-        ToSelectNumbers.Add(Random.Range(1, 100));
+        ToSelectNumbers.Add(Random.Range(1, 30));
     }
 
     /// <summary>
@@ -58,6 +58,7 @@ public class NumberManager : MonoBehaviour
     public void PlayerGetNumber(int n)
     {
         PlayerNumbers.Add(n);
+        PlayerNumbers.Sort();
         gameObject.GetComponent<ProcessManager>().CheckPhase();
     }
 
@@ -80,6 +81,7 @@ public class NumberManager : MonoBehaviour
                         {
                             if (PlayerNumbers[l] == n4)
                             {
+                                print("zhaodaole");
                                 _progressionNumbers.Add(PlayerNumbers[i]);
                                 _progressionNumbers.Add(PlayerNumbers[j]);
                                 _progressionNumbers.Add(PlayerNumbers[k]);
