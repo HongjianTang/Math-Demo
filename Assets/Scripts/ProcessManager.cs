@@ -7,7 +7,7 @@ public class ProcessManager : MonoBehaviour
 {
     private void Start()
     {
-        Invoke(nameof(InitPhase), 0.2f);
+        Invoke(nameof(RegenerateSelectNumberPhase), 0.2f);
     }
 
     void InitGame()
@@ -15,18 +15,24 @@ public class ProcessManager : MonoBehaviour
         
     }
 
-    void InitPhase()
+    /// <summary>
+    /// 再次生成待选数组
+    /// </summary>
+    void RegenerateSelectNumberPhase()
     {
         NumberManager.Instance.ClearList();
         NumberManager.Instance.GenerateRandomNumber();
         UIManager.Instance.UpdateSelectNumber();
     }
 
+    /// <summary>
+    /// 检查阶段
+    /// </summary>
     public void CheckPhase()
     {
         UIManager.Instance.UpdatePlayerNumber();
+        RegenerateSelectNumberPhase();
         NumberManager.Instance.CheckArithmeticProgression();
-        InitPhase();
     }
 
     void EndGame()
