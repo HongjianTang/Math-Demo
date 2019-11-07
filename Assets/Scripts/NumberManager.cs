@@ -1,21 +1,34 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class NumberManager : MonoBehaviour
 {
-    private List<int> _toSelectNumbers = new List<int>();
-    private List<int> _playerNumbers = new List<int>();
-    private List<int> _progressionNumbers = new List<int>();
+    [NonSerialized] public readonly List<int> ToSelectNumbers = new List<int>();
+    private readonly List<int> _playerNumbers = new List<int>();
+    private readonly List<int> _progressionNumbers = new List<int>();
     private int _score;
     private int _scoreInterval;
+    public static NumberManager Instance;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    public void ClearList()
+    {
+        ToSelectNumbers.Clear();
+    }
+    
     /// <summary>
     /// 产生单个随机数
     /// </summary>
     public void GenerateSingleRandomNumber()
     {
-        _toSelectNumbers.Add(Random.Range(1, 100));
+        ToSelectNumbers.Add(Random.Range(1, 100));
     }
 
     /// <summary>
@@ -35,7 +48,7 @@ public class NumberManager : MonoBehaviour
     /// <param name="n"></param>
     public void SelectNumber(int n)
     {
-        PlayerGetNumber(_toSelectNumbers[n]);
+        PlayerGetNumber(ToSelectNumbers[n]);
     }
 
     /// <summary>
@@ -45,6 +58,7 @@ public class NumberManager : MonoBehaviour
     public void PlayerGetNumber(int n)
     {
         _playerNumbers.Add(n);
+        gameObject.GetComponent<ProcessManager>().CheckPhase();
     }
 
     /// <summary>
