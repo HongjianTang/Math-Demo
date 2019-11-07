@@ -24,7 +24,9 @@ public class ProcessManager : MonoBehaviour
 
     public void CheckPhase()
     {
+        UIManager.Instance.UpdatePlayerNumber();
         NumberManager.Instance.CheckArithmeticProgression();
+        InitPhase();
     }
 
     void EndGame()

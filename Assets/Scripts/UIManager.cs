@@ -10,6 +10,9 @@ public class UIManager : MonoBehaviour
     public List<GameObject> selectNumber = new List<GameObject>();
     private List<TextMeshProUGUI> _selectNumberText = new List<TextMeshProUGUI>();
     public static UIManager Instance;
+    public GameObject numberPrefab;
+    public GameObject playerNumberGroup;
+    private List<GameObject> _playerNumberObjects = new List<GameObject>();
 
     private void Awake()
     {
@@ -18,12 +21,13 @@ public class UIManager : MonoBehaviour
         {
             _selectNumberText.Add(selectNumber[i].GetComponent<TextMeshProUGUI>());
         }
-        
+
         // add listener
         for (int i = 0; i < 5; i++)
         {
+            var i1 = i;
             selectNumber[i].transform.parent.gameObject.GetComponent<Button>().onClick
-                .AddListener(() => NumberManager.Instance.SelectNumber(i));
+                .AddListener(() => NumberManager.Instance.SelectNumber(i1));
         }
     }
 
@@ -38,8 +42,24 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public void UpdatePlayerNumber()
     {
-        
+        foreach (var number in _playerNumberObjects)
+        {
+            Destroy(number);
+        }
+
+        _playerNumberObjects.Clear();
+        for (int i = 0; i < NumberManager.Instance.PlayerNumbers.Count; i++)
+        {
+            GameObject numberGameObject =
+                Instantiate(numberPrefab, playerNumberGroup.transform, true);
+            _playerNumberObjects.Add(numberGameObject);
+            numberGameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
+                NumberManager.Instance.PlayerNumbers[i].ToString();
+        }
     }
 }

@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 public class NumberManager : MonoBehaviour
 {
     [NonSerialized] public readonly List<int> ToSelectNumbers = new List<int>();
-    private readonly List<int> _playerNumbers = new List<int>();
+    [NonSerialized] public readonly List<int> PlayerNumbers = new List<int>();
     private readonly List<int> _progressionNumbers = new List<int>();
     private int _score;
     private int _scoreInterval;
@@ -57,7 +57,7 @@ public class NumberManager : MonoBehaviour
     /// <param name="n"></param>
     public void PlayerGetNumber(int n)
     {
-        _playerNumbers.Add(n);
+        PlayerNumbers.Add(n);
         gameObject.GetComponent<ProcessManager>().CheckPhase();
     }
 
@@ -66,30 +66,44 @@ public class NumberManager : MonoBehaviour
     /// </summary>
     public void CheckArithmeticProgression()
     {
-        for (int i = 0; i < _playerNumbers.Count - 3; i++)
+        for (int i = 0; i < PlayerNumbers.Count - 3; i++)
         {
-            for (int j = i + 1; j < _playerNumbers.Count - 2; j++)
+            for (int j = i + 1; j < PlayerNumbers.Count - 2; j++)
             {
-                int n3 = 2 * _playerNumbers[j] - _playerNumbers[i];
-                for (int k = j + 1; k < _playerNumbers.Count - 1; k++)
+                int n3 = 2 * PlayerNumbers[j] - PlayerNumbers[i];
+                for (int k = j + 1; k < PlayerNumbers.Count - 1; k++)
                 {
-                    if (_playerNumbers[k] == n3)
+                    if (PlayerNumbers[k] == n3)
                     {
-                        int n4 = 2 * _playerNumbers[k] - _playerNumbers[j];
-                        for (int l = k + 1; l < _playerNumbers.Count; l++)
+                        int n4 = 2 * PlayerNumbers[k] - PlayerNumbers[j];
+                        for (int l = k + 1; l < PlayerNumbers.Count; l++)
                         {
-                            if (_playerNumbers[l] == n4)
+                            if (PlayerNumbers[l] == n4)
                             {
-                                _progressionNumbers.Add(_playerNumbers[i]);
-                                _progressionNumbers.Add(_playerNumbers[j]);
-                                _progressionNumbers.Add(_playerNumbers[k]);
-                                _progressionNumbers.Add(_playerNumbers[l]);
+                                _progressionNumbers.Add(PlayerNumbers[i]);
+                                _progressionNumbers.Add(PlayerNumbers[j]);
+                                _progressionNumbers.Add(PlayerNumbers[k]);
+                                _progressionNumbers.Add(PlayerNumbers[l]);
                                 _scoreInterval = l - i - 3;
                                 AddScoreAnimation();
                             }
                         }
                     }
                 }
+            }
+        }
+    }
+
+    public void CheckArithmeticProgression2()
+    {
+        for (int i = 0; i < PlayerNumbers.Count - 3; i++)
+        {
+            for (int j = i + 1; j < PlayerNumbers.Count - 2; j++)
+            {
+                int n3 = 2 * PlayerNumbers[j] - PlayerNumbers[i];
+                int n4 = 3 * PlayerNumbers[j] - 2 * PlayerNumbers[i];
+                var k = PlayerNumbers.FindIndex(x => x == n3);
+                var l = PlayerNumbers.FindIndex(x => x == n4);
             }
         }
     }
@@ -112,7 +126,7 @@ public class NumberManager : MonoBehaviour
     /// <param name="n"></param>
     public void RemoveNumber(int n)
     {
-        _playerNumbers.Remove(n);
+        PlayerNumbers.Remove(n);
         // 播放动画
     }
 
