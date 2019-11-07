@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     private List<GameObject> _playerNumberObjects = new List<GameObject>();
     public GameObject stepText;
     public GameObject scoreText;
+    public GameObject restartButton;
 
     private void Awake()
     {
@@ -31,6 +32,9 @@ public class UIManager : MonoBehaviour
             selectNumber[i].transform.parent.gameObject.GetComponent<Button>().onClick
                 .AddListener(() => NumberManager.Instance.SelectNumber(i1));
         }
+
+        restartButton.GetComponent<Button>().onClick
+            .AddListener(ProcessManager.Instance.RestartGame);
     }
 
     /// <summary>
@@ -45,7 +49,7 @@ public class UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// 更新玩家数组UI
     /// </summary>
     public void UpdatePlayerNumber()
     {
@@ -55,29 +59,77 @@ public class UIManager : MonoBehaviour
         }
 
         _playerNumberObjects.Clear();
-        for (int i = 0; i < NumberManager.Instance.PlayerNumbers.Count; i++)
+        if (NumberManager.Instance.PlayerNumbers == null) return;
+        foreach (var t in NumberManager.Instance.PlayerNumbers)
         {
             GameObject numberGameObject =
                 Instantiate(numberPrefab, playerNumberGroup.transform, true);
             _playerNumberObjects.Add(numberGameObject);
             numberGameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
-                NumberManager.Instance.PlayerNumbers[i].ToString();
+                t.ToString();
         }
     }
 
-    public void UpdateScore()
+    /// <summary>
+    /// 更新分数UI
+    /// </summary>
+    private void UpdateScore()
     {
         scoreText.GetComponent<TextMeshProUGUI>().text = "Score: " + NumberManager.Instance.score;
     }
 
-    public void UpdateStep()
+    /// <summary>
+    /// 更新步数UI
+    /// </summary>
+    private void UpdateStep()
     {
         stepText.GetComponent<TextMeshProUGUI>().text = "Step: " + ProcessManager.Instance.nStep;
     }
 
+    /// <summary>
+    /// 更新步数和分数UI
+    /// </summary>
     public void UpdateAll()
     {
         UpdateScore();
         UpdateStep();
+    }
+
+    /// <summary>
+    /// 显示重新开始按钮
+    /// </summary>
+    public void DisplayRestartButton()
+    {
+        restartButton.SetActive(true);
+    }
+
+    /// <summary>
+    /// 隐藏重新开始按钮
+    /// </summary>
+    public void HideRestartButton()
+    {
+        restartButton.SetActive(false);
+    }
+
+    /// <summary>
+    /// 使待选数组按钮不可用
+    /// </summary>
+    public void InactiveNumberButton()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            selectNumber[i].transform.parent.gameObject.GetComponent<Button>().interactable = false;
+        }
+    }
+
+    /// <summary>
+    /// 使待选数组按钮可用
+    /// </summary>
+    public void ActiveNumberButton()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            selectNumber[i].transform.parent.gameObject.GetComponent<Button>().interactable = true;
+        }
     }
 }
